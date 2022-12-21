@@ -1,76 +1,113 @@
 #include "philo.h"
 
-static void	iteristr_philo_argv(int i, char *str)
+static bool	philo_validarg(int i, const char *arg)
 {
-	const char	*index[5] = {NOPHL, TDIE, TEAT, TSLP, NOFIN};
-	int			nbr;
+	static const char	*type[5] = {NOPHL, TDIE, TEAT, TSLP, NOFIN};
+	int					nbr;
 
-	if (i > 4)
-		return ;
-	else if (!ft_strisnumeric(str))
-		exit(!printf("%s should contain only integer\n", index[i]) + 2);
-	nbr = ft_atoi(str);
-	if (!nbr)
-		printf("%s could not be left blank\n", index[i]);
+	nbr = ft_atoi(arg);
+	if (arg[0] == '\0')
+		printf("%s:(%s) could not be left blank\n", type[i], arg);
+	else if (ft_strisnumeric(arg) == false)
+		printf("%s:(%s) should contain only integer\n", type[i], arg) ;
+	else if (nbr == 0)
+		printf("%s:(%s) could not be left blank\n", type[i], arg);
 	else if (nbr < 0)
-		printf("%s could not be negative\n", index[i]);
+		printf("%s:(%s) could not be negative\n", type[i], arg);
 	else
-		return ;
-	exit(2);
+		return (true);
+	return (false);
+}
+
+static bool	philo_evaluate(char **argv)
+{
+	int			i;
+	bool		valid;
+
+	i = -1;
+	valid = true;
+	while (argv[++i] && i <= 4)
+		if (philo_validarg(i, argv[i]) == false)
+			valid = false;
+	return (valid);
 }
 
 static t_table	world_end_table(char **argv)
 {
 	t_table	table;
 
-	ft_strlistiteri(argv + 1, iteristr_philo_argv);
 	table.member = ft_atoi(argv[1]);
 	table.countdown = ft_atoi(argv[2]);
 	table.meal_duration = ft_atoi(argv[3]);
 	table.sleep_duration = ft_atoi(argv[4]);
 	if (argv[5])
 	{
-		table.loop_end = ft_atoi(argv[5]);
+		table.end.status = ft_atoi(argv[5]);
 		table.loop = loop_increment;
 	}
 	else
 	{
-		table.loop_end = 1;
+		table.end.status = 1;
 		table.loop = loop_static;
 	}
-	gettimeofday(&table.start, 0);
-	mutex_report(default_mutex_init, &table.log.mutex);
+	gettimeofday(&table.start, NULL);
 	mutex_report(default_mutex_init, &table.end.mutex);
 	return (table);
 }
 
-static void	philo_for(t_table *table, void *ptr_main, void *ptr_2nd, void (*ft)())
+
+
+static void	philo_for(t_table *table, t_iter ft_iter, void *arg1, void *arg2)
 {
 	int	i;
 
 	i = -1;
 	while (++i < table->member)
-		ft(table, ptr_main, i, ptr_2nd);
+		ft_iter(table, i, arg1, arg2);
 }
 
-void	philosopher(char **argv)
+void	philo_monitor(t_philo *const str_philo)
+{
+	t_philo	*it;
+	const t_philo	*end = str_philo + str_philo->table->member;
+
+	while (1)
+	{
+		it = str_philo - 1;
+		// printf("re\n");
+		while (++it < end)
+		{
+			// printf("it\n");
+			if (philo_time(it->table) - stat_get(&it->info.last_meal) <= it->table->countdown)
+				continue ;
+			philo_log(it, DEATH);
+			stat_set(&it->table->end, DIED);
+			return ;
+		}
+	}
+}
+
+
+int	philosopher(char **argv)
 {
 	t_table		table;
 	pthread_t	*str_thread;
-	t_mutex		*str_fork;
+	t_stat		*str_fork;
 	t_philo		*str_philo;
 
+	if (philo_evaluate(argv + 1) == false)
+		return (1);
 	table = world_end_table(argv);
-	if (!table.member)
-		return ;
-	str_fork = malloc(table.member * sizeof(t_mutex));
+	str_fork = malloc(table.member * sizeof(t_stat));
 	str_philo = malloc(table.member * sizeof(t_philo));
 	str_thread = malloc(table.member * sizeof(pthread_t));
-	philo_for(&table, str_fork, 0, init_fork);
-	philo_for(&table, str_philo, str_fork, init_philo);
-	philo_for(&table, str_thread, str_philo, start_simulation);
-	philo_for(&table, str_thread, 0, end_simulation);
+	philo_for(&table, init_fork, str_fork, NULL);
+	philo_for(&table, init_philo, str_philo, str_fork);
+	philo_for(&table, sim_start, str_thread, str_philo);
+	philo_monitor(str_philo);
+	philo_for(&table, sim_end, str_thread, NULL);
 	free(str_thread);
 	free(str_fork);
 	free(str_philo);
+	return (0);
 }

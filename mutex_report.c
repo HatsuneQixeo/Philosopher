@@ -2,7 +2,7 @@
 
 int	default_mutex_init(pthread_mutex_t *mutex)
 {
-	return (pthread_mutex_init(mutex, 0));
+	return (pthread_mutex_init(mutex, NULL));
 }
 
 void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex)
@@ -23,5 +23,5 @@ void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex)
 		report = "destroy";
 	else
 		report = "undefined function";
-	ft_dprintf(2, "%s returned: %d\n", report, value);
+	printf("%s returned: %d\n", report, value);
 }

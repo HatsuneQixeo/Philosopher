@@ -12,9 +12,9 @@ CC := gcc
 
 CFLAGS := -Wall -Wextra -Werror
 
-# SAN := -fsanitize=address -g3
+SAN := -fsanitize=address -g3
 # SAN := -fsanitize=undefined -g3
-SAN := -fsanitize=thread -g3
+SANT := -fsanitize=thread -g3
 
 RM := rm -rf
 
@@ -31,6 +31,9 @@ ${NAME} : ${OBJS} libft/libft.a
 
 san : ${OBJ_DIR} ${SRCS} ${HEADER}
 	${CC} ${CFLAGS} ${SAN} libft/libft.a ${SRCS} -o ${NAME}
+
+sant : ${OBJ_DIR} ${SRCS} ${HEADER}
+	${CC} ${CFLAGS} ${SANT} libft/libft.a ${SRCS} -o ${NAME}
 
 clean :
 	${RM} ${OBJ_DIR}
