@@ -23,7 +23,7 @@
 # define TSLP	"time_to_sleep"
 # define NOFIN	"number_of_times_each_philosopher_must_eat"
 
-int	philosopher(char **argv);
+int		philosopher(char **argv);
 
 // libft_ft
 int		ft_strisnumeric(const char *str);
