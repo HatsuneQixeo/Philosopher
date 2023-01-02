@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:28:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:28:08 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ int	default_mutex_init(pthread_mutex_t *mutex)
 
 void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex)
 {
-	char	*report;
+	char	*ftname;
 	int		value;
 
 	value = ft_mutex(mutex);
 	if (!value)
 		return ;
 	else if (ft_mutex == default_mutex_init)
-		report = "init";
+		ftname = "default_mutex_init";
 	else if (ft_mutex == pthread_mutex_lock)
-		report = "lock";
+		ftname = "pthread_mutex_lock";
 	else if (ft_mutex == pthread_mutex_unlock)
-		report = "unlock";
+		ftname = "pthread_mutex_unlock";
 	else if (ft_mutex == pthread_mutex_destroy)
-		report = "destroy";
+		ftname = "pthread_mutex_destroy";
 	else
-		report = "undefined function";
-	printf("%s returned: %d\n", report, value);
+		ftname = "undefined function";
+	printf("%s returned: %d\n", ftname, value);
 }
 
 int	stat_get(t_stat *stat)

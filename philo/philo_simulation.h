@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:29:51 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:29:54 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 # define THINK		"is thinking"
 # define DEATH		"died"
 
-void	philo_do(t_philo *philo, int time);
+void	philo_do(t_philo *philo, int ms);
 void	philo_think(t_philo *philo);
+void	philo_log(t_philo *philo, const char *action);
+
+// Utils
 long	philo_time(t_table *table);
 void	stat_set(t_stat *stat, int set);
 int		stat_get(t_stat *stat);
-void	philo_log(t_philo *philo, const char *action);
 
 #endif

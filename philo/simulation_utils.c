@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   simulation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:28:14 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:28:16 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,42 +17,40 @@ long	philo_time(t_table *table)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return (((time.tv_sec - table->start.tv_sec) * MS)
-		+ ((time.tv_usec - table->start.tv_usec) / MS));
+	return (((time.tv_sec - table->time_start.tv_sec) * MS)
+		+ ((time.tv_usec - table->time_start.tv_usec) / MS));
 }
 
 void	philo_log(t_philo *philo, const char *action)
 {
-	static pthread_mutex_t	log_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-	mutex_report(pthread_mutex_lock, &log_mutex);
-	if (stat_get(&philo->table->end) != DIED)
+	mutex_report(pthread_mutex_lock, &philo->table->mutex_log);
+	if (stat_get(&philo->table->stat_end) != DIED)
 		printf("%ld %d %s\n", philo_time(philo->table), philo->info.id, action);
-	mutex_report(pthread_mutex_unlock, &log_mutex);
+	mutex_report(pthread_mutex_unlock, &philo->table->mutex_log);
 }
 
-static int	philo_status(t_philo *philo, long current)
+static int	philo_alive(t_philo *philo, long current)
 {
-	if (current <= philo->info.last_meal + philo->table->countdown)
-		return (1);
-	philo_log(philo, DEATH);
-	stat_set(&philo->table->end, DIED);
-	return (0);
+	return (current <= philo->info.last_meal + philo->table->countdown);
 }
 
 void	philo_do(t_philo *philo, int time)
 {
-	long	wait;
-	long	longing;
+	long	start;
+	long	pass;
 
-	wait = philo_time(philo->table);
-	longing = wait;
-	while (longing - wait < time)
+	start = philo_time(philo->table);
+	pass = start;
+	while (pass - start < time)
 	{
-		if (!philo_status(philo, longing))
+		if (!philo_alive(philo, pass))
+		{
+			philo_log(philo, DEATH);
+			stat_set(&philo->table->stat_end, DIED);
 			break ;
+		}
 		usleep(WAIT);
-		longing = philo_time(philo->table);
+		pass = philo_time(philo->table);
 	}
 }
 
@@ -60,8 +58,12 @@ void	philo_think(t_philo *philo)
 {
 	while (!stat_get(philo->lfork) || !stat_get(philo->rfork))
 	{
-		if (!philo_status(philo, philo_time(philo->table)))
+		if (!philo_alive(philo, philo_time(philo->table)))
+		{
+			philo_log(philo, DEATH);
+			stat_set(&philo->table->stat_end, DIED);
 			break ;
+		}
 		usleep(WAIT);
 	}
 }

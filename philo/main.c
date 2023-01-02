@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:28:05 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:28:06 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:17 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_init.h"
-
-int	philosopher(char **argv);
 
 int	main(int argc, char **argv)
 {

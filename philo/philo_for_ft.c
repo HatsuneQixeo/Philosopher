@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_for_utils.c                                  :+:      :+:    :+:   */
+/*   philo_for_ft.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:28:10 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:28:11 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ void	sim_end(int i, t_table *table, void *ptr_thread, void *ptr_null)
 
 	thread = ptr_thread;
 	pthread_join(thread[i], NULL);
+	(void)table;
+	(void)ptr_null;
+}
+
+void	destroy_forks(int i, t_table *table, void *ptr_forks, void *ptr_null)
+{
+	t_stat	*fork;
+
+	fork = ptr_forks;
+	mutex_report(pthread_mutex_destroy, &fork[i].mutex);
 	(void)table;
 	(void)ptr_null;
 }

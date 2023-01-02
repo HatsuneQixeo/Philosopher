@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:29:46 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:29:48 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ typedef struct s_table
 	int				meal_duration;
 	int				sleep_duration;
 	t_loop			loop;
-	t_stat			end;
-	struct timeval	start;
+	t_stat			stat_end;
+	pthread_mutex_t	mutex_log;
+	struct timeval	time_start;
 }			t_table;
 
 typedef struct s_philo

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 02:28:12 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/03 02:28:13 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/03 05:16:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	*ft_simulation(void *ptr)
 	philo->info.last_meal = philo_time(philo->table);
 	if (philo->info.id % 2)
 		philo_do(philo, 1);
-	while (philo->info.eaten < stat_get(&philo->table->end))
+	while (philo->info.eaten < stat_get(&philo->table->stat_end))
 	{
 		philo_eat(philo);
-		if (philo->info.eaten >= stat_get(&philo->table->end))
+		if (philo->info.eaten >= stat_get(&philo->table->stat_end))
 			break ;
 		philo_log(philo, SLEEP);
 		philo_do(philo, philo->table->sleep_duration);
