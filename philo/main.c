@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	else if (argc > 6)
 	{
 		argv += 5;
-		while (*++argv)
+		while (*++argv != NULL)
 			printf("Exessive arguments: %s\n", *argv);
 	}
 	else

@@ -22,7 +22,6 @@
 
 # define TAKEN		0
 # define AVAILABLE	1
-# define DIED		-1
 
 typedef int	(*t_loop)(int *);
 typedef int	(*t_ftmutex)(pthread_mutex_t *);

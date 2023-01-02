@@ -24,6 +24,7 @@
 # define SLEEP		"is sleeping"
 # define THINK		"is thinking"
 # define DEATH		"died"
+# define DIED		-1
 
 void	philo_do(t_philo *philo, int ms);
 void	philo_think(t_philo *philo);

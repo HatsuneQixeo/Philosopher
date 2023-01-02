@@ -56,7 +56,7 @@ void	philo_do(t_philo *philo, int time)
 
 void	philo_think(t_philo *philo)
 {
-	while (!stat_get(philo->lfork) || !stat_get(philo->rfork))
+	while (stat_get(philo->lfork) == TAKEN || stat_get(philo->rfork) == TAKEN)
 	{
 		if (!philo_alive(philo, philo_time(philo->table)))
 		{

@@ -110,6 +110,5 @@ int	philosopher(char **argv)
 	free(str_thread);
 	free(str_fork);
 	free(str_philo);
-	system("leaks -q philo");
 	return (0);
 }

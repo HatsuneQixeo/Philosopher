@@ -23,7 +23,7 @@ void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex)
 	int		value;
 
 	value = ft_mutex(mutex);
-	if (!value)
+	if (value == 0)
 		return ;
 	else if (ft_mutex == default_mutex_init)
 		ftname = "default_mutex_init";
