@@ -1,21 +1,16 @@
-NAME := philo
+NAME		:=	philo
+SRC_DIR		:=	src/
+SRCS		:=	${wildcard ${SRC_DIR}*.c}
+OBJ_DIR		:=	obj/
+OBJS		:=	${patsubst ${SRC_DIR}%.c, ${OBJ_DIR}%.o, ${SRCS}}
+HEADER_DIR	:=	include/
+HEADER		:=	${wildcard ${HEADER_DIR}*.h}
+CC			:=	gcc
+CFLAGS		:=	-Wall -Wextra -Werror
+RM			:=	rm -rf
 
-SRCS := ${wildcard *.c}
-
-OBJ_DIR := obj/
-
-OBJS := ${patsubst %.c, ${OBJ_DIR}%.o, ${SRCS}}
-
-HEADER := ${wildcard *.h}
-
-CC := gcc
-
-CFLAGS := -Wall -Wextra -Werror
-
-RM := rm -rf
-
-${OBJ_DIR}%.o : %.c ${HEADER}
-	${CC} ${CFLAGS} -c $< -o $@
+${OBJ_DIR}%.o : ${SRC_DIR}%.c ${HEADER}
+	${CC} ${CFLAGS} -I${HEADER_DIR} -c $< -o $@
 
 all : ${OBJ_DIR} ${NAME}
 
@@ -31,9 +26,6 @@ san :
 sant :
 	${CC} ${CFLAGS} -fsanitize=thread -g3 ${SRCS} -o ${NAME}
 
-sant : ${OBJ_DIR} ${SRCS} ${HEADER}
-	${CC} ${CFLAGS} ${SANT} libft/libft.a ${SRCS} -o ${NAME}
-
 clean :
 	${RM} ${OBJ_DIR}
 
@@ -45,6 +37,6 @@ re : fclean all
 norm :
 	norminette ${SRCS} ${HEADER}
 
-norme : 
+norme :
 	norminette ${SRCS} ${HEADER} | grep "Error"
 
