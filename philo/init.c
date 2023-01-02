@@ -14,8 +14,8 @@
 
 static int	philo_validarg(int i, const char *arg)
 {
-	static const char	*type[5] = {NOPHL, TDIE, TEAT, TSLP, NOFIN};
-	int					nbr;
+	const char	*type[5] = {NOPHL, TDIE, TEAT, TSLP, NOFIN};
+	int			nbr;
 
 	nbr = ft_atoi(arg);
 	if (arg[0] == '\0')

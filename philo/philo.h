@@ -13,10 +13,10 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-//printf
+// printf
 # include <stdio.h>
-//create, detach, join
-//mutex: init, destroy, lock, unlock
+// create, detach, join
+// mutex: init, destroy, lock, unlock
 # include <pthread.h>
 # include <sys/time.h>
 

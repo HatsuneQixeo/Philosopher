@@ -13,7 +13,7 @@
 #ifndef PHILO_INIT_H
 # define PHILO_INIT_H
 
-//malloc, free
+// malloc, free
 # include <stdlib.h>
 # include "philo.h"
 

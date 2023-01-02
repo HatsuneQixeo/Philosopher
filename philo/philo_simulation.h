@@ -13,7 +13,7 @@
 #ifndef PHILO_SIMULATION_H
 # define PHILO_SIMULATION_H
 
-//write, usleep
+// usleep
 # include <unistd.h>
 # include "philo.h"
 

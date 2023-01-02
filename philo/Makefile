@@ -43,5 +43,5 @@ norm :
 	norminette ${SRCS} ${HEADER}
 
 norme : 
-	norminette ${SRCS} ${HEADER} | grep Error
+	norminette ${SRCS} ${HEADER} | grep "Error"
 
