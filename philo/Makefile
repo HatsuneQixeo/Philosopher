@@ -12,10 +12,6 @@ CC := gcc
 
 CFLAGS := -Wall -Wextra -Werror
 
-SAN := -fsanitize=address -g3
-# SAN := -fsanitize=undefined -g3
-SANT := -fsanitize=thread -g3
-
 RM := rm -rf
 
 ${OBJ_DIR}%.o : %.c ${HEADER}
@@ -26,11 +22,14 @@ all : ${OBJ_DIR} ${NAME}
 ${OBJ_DIR} :
 	mkdir $@
 
-${NAME} : ${OBJS} libft/libft.a
+${NAME} : ${OBJS}
 	${CC} ${CFLAGS} $^ -o $@
 
-san : ${OBJ_DIR} ${SRCS} ${HEADER}
-	${CC} ${CFLAGS} ${SAN} libft/libft.a ${SRCS} -o ${NAME}
+san :
+	${CC} ${CFLAGS} -fsanitize=address -g3 ${SRCS} -o ${NAME}
+
+sant :
+	${CC} ${CFLAGS} -fsanitize=thread -g3 ${SRCS} -o ${NAME}
 
 sant : ${OBJ_DIR} ${SRCS} ${HEADER}
 	${CC} ${CFLAGS} ${SANT} libft/libft.a ${SRCS} -o ${NAME}
@@ -47,9 +46,5 @@ norm :
 	norminette ${SRCS} ${HEADER}
 
 norme : 
-	norminette ${SRCS} ${HEADER} | grep Error
-
-libft : 
-	make -C libft
-
+	norminette ${SRCS} ${HEADER} | grep "Error"
 

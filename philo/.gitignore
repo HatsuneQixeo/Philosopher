@@ -1,8 +1,5 @@
-unused
-sean
-matt
+philo
 *.dSYM
 obj
-libft
 .vscode
 *.DS_Store
