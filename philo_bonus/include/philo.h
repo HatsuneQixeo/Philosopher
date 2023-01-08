@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:17 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 20:57:07 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // open, close, post, wait, unlink
 # include <semaphore.h>
 
-typedef int	(*t_loop)(int *);
+typedef int	(*t_loop)(int *i);
 
 typedef struct s_info
 {
@@ -54,6 +54,6 @@ typedef struct s_philo
 	t_table	table;
 }			t_philo;
 
-typedef int (*ft_sem)(sem_t *sem);
-void	semaphore_report(ft_sem ft, sem_t *sem);
+typedef int	(*t_ftsem)(sem_t *sem);
+void	semaphore_report(t_ftsem ft, sem_t *sem);
 #endif

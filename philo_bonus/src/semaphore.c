@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:49:00 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 20:57:07 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ sem_t	*ft_sem_renew(const char *name, int permission, int amount)
 	return (sem_open(name, O_CREAT, permission, amount));
 }
 
-void	semaphore_report(ft_sem ft, sem_t *sem)
+void	semaphore_report(t_ftsem ft, sem_t *sem)
 {
 	const char	*ftname;
 	int			value;

@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosopher.c                                      :+:      :+:    :+:   */
+/*   world_end_table.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hqixeo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 04:19:18 by hqixeo            #+#    #+#             */
+/*   Created: 2023/01/08 20:56:49 by hqixeo            #+#    #+#             */
 /*   Updated: 2023/01/08 20:57:07 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_init.h"
+#define PHILO	"philo_"
 
 static int	philo_validarg(int i, const char *arg)
 {
@@ -42,7 +43,7 @@ static int	philo_validarg(int i, const char *arg)
 //	valid = min(valid, philo_validarg(i, argv[i]))
 //	, sucks that c doesn't have it built in
 //	, but bitwise is probably the fastest anyway
-static int	philo_evaluate(char **argv)
+int	philo_evaluate(char **argv)
 {
 	int	i;
 	int	valid;
@@ -54,7 +55,7 @@ static int	philo_evaluate(char **argv)
 	return (valid);
 }
 
-static t_table	world_end_table(char **argv)
+t_table	world_end_table(char **argv)
 {
 	t_table	table;
 
@@ -64,51 +65,16 @@ static t_table	world_end_table(char **argv)
 	table.sleep_duration = ft_atoi(argv[4]);
 	if (argv[5] == NULL)
 	{
-		table.stat_end.status = 1;
+		table.meal_end = 1;
 		table.loop = loop_static;
 	}
 	else
 	{
-		table.stat_end.status = ft_atoi(argv[5]);
+		table.meal_end = ft_atoi(argv[5]);
 		table.loop = loop_increment;
 	}
 	gettimeofday(&table.time_start, NULL);
-	mutex_report(default_mutex_init, &table.mutex_log);
-	mutex_report(default_mutex_init, &table.stat_end.mutex);
+	table.forks = ft_sem_renew(PHILO"forks", 0660, table.member);
+	table.sem_log = ft_sem_renew(PHILO"log", 0660, 1);
 	return (table);
-}
-
-static void	philo_for(t_iter ft_iter, t_table *table, void *arg1, void *arg2)
-{
-	int	i;
-
-	i = -1;
-	while (++i < table->member)
-		ft_iter(i, table, arg1, arg2);
-}
-
-int	philosopher(char **argv)
-{
-	t_table		table;
-	pthread_t	*str_thread;
-	t_stat		*str_fork;
-	t_philo		*str_philo;
-
-	if (!philo_evaluate(argv + 1))
-		return (1);
-	table = world_end_table(argv);
-	str_fork = malloc(table.member * sizeof(t_stat));
-	str_philo = malloc(table.member * sizeof(t_philo));
-	str_thread = malloc(table.member * sizeof(pthread_t));
-	philo_for(init_fork, &table, str_fork, NULL);
-	philo_for(init_philo, &table, str_philo, str_fork);
-	philo_for(sim_begin, &table, str_thread, str_philo);
-	philo_for(sim_end, &table, str_thread, NULL);
-	philo_for(destroy_forks, &table, str_fork, NULL);
-	mutex_report(pthread_mutex_destroy, &table.mutex_log);
-	mutex_report(pthread_mutex_destroy, &table.stat_end.mutex);
-	free(str_thread);
-	free(str_fork);
-	free(str_philo);
-	return (0);
 }

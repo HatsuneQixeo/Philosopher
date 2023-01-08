@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:17 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 20:57:07 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int		loop_static(int *nbr);
 int		loop_increment(int *nbr);
 
 sem_t	*ft_sem_renew(const char *name, int permission, int amount);
+
+int		philo_evaluate(char **argv);
+t_table	world_end_table(char **argv);
 // Simulation
 void	*philo_simulation(void *ptr);
 
