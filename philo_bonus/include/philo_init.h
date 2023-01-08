@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:17 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/07 18:59:45 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ int		ft_atoi(const char *str);
 int		loop_static(int *nbr);
 int		loop_increment(int *nbr);
 
-// philo_for_ft
-typedef void	(*t_iter)(int i, t_table *table, void *arg1, void *arg2);
-void	sim_begin(t_philo philo);
-
+sem_t	*ft_sem_renew(const char *name, int permission, int amount);
 // Simulation
-void	*ft_simulation(void *ptr);
+void	*philo_simulation(void *ptr);
 
 #endif

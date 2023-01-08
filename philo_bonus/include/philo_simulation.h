@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:17 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/07 18:59:45 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	philo_do(t_philo *philo, int ms);
 void	philo_log(t_philo *philo, const char *action);
 
 // Utils
-long	philo_time(t_table *table);
-int		stat_get(t_stat *stat);
-void	stat_set(t_stat *stat, int set);
+long	philo_time(t_table table);
 
 #endif

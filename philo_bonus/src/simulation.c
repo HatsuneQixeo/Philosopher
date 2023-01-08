@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:03 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/07 18:59:45 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 static void	philo_getforks(t_philo *philo)
 {
-	sem_wait(philo->table->forks);
+	semaphore_report(sem_wait, philo->table.forks);
 	philo_log(philo, GETFORK);
-	sem_wait(philo->table->forks);
+	semaphore_report(sem_wait, philo->table.forks);
 	philo_log(philo, GETFORK);
 }
 
 static void	philo_putforks(t_philo *philo)
 {
-	sem_post(philo->table->forks);
-	sem_post(philo->table->forks);
+	semaphore_report(sem_post, philo->table.forks);
+	semaphore_report(sem_post, philo->table.forks);
 }
 
 static void	philo_eat(t_philo *philo)
@@ -32,13 +32,11 @@ static void	philo_eat(t_philo *philo)
 	philo_getforks(philo);
 	philo->info.last_meal = philo_time(philo->table);
 	philo_log(philo, EAT);
-	philo_do(philo, philo->table->meal_duration);
-	philo->table->loop(&philo->info.eaten);
+	philo_do(philo, philo->table.meal_duration);
+	philo->table.loop(&philo->info.eaten);
 	philo_putforks(philo);
 }
 
-// Create a thread for each philosother and kill everyone when someone died?
-// Probably need to detach the thread for convenience too
 void	*philo_monitor(void *ptr_philo)
 {
 	t_philo	*philo;
@@ -51,7 +49,7 @@ void	*philo_monitor(void *ptr_philo)
 	return (NULL);
 }
 
-void	ft_simulation(t_philo *philo)
+void	philo_simulation(t_philo *philo)
 {
 	pthread_t	monitor;
 
@@ -62,9 +60,9 @@ void	ft_simulation(t_philo *philo)
 	{
 		philo_eat(philo);
 		philo_log(philo, SLEEP);
-		if (philo->info.eaten >= philo->table->stat_end.status)
+		if (philo->info.eaten >= philo->table.meal_end)
 			break ;
-		philo_do(philo, philo->table->sleep_duration);
+		philo_do(philo, philo->table.sleep_duration);
 		philo_log(philo, THINK);
 	}
 	exit(0);

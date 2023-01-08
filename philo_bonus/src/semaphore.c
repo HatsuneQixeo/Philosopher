@@ -5,27 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/07 16:50:03 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/07 18:59:45 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/08 18:49:00 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_simulation.h"
+#include "philo.h"
 
-int	stat_get(t_stat *stat)
+//	Unlink the existing semaphore with the same name
+//	and return sem_open() with given arguments
+sem_t	*ft_sem_renew(const char *name, int permission, int amount)
 {
-	int	status;
-
-	sem_wait(stat->sem);
-	status = stat->status;
-	sem_post(stat->sem);
-	return (status);
+	sem_unlink(name);
+	return (sem_open(name, O_CREAT, permission, amount));
 }
 
-// Unused currently
-void	stat_set(t_stat *stat, int set)
+void	semaphore_report(ft_sem ft, sem_t *sem)
 {
-	sem_wait(stat->sem);
-	stat->status = set;
-	sem_post(stat->sem);
+	const char	*ftname;
+	int			value;
+
+	value = ft(sem);
+	if (value == 0)
+		return ;
+	else if (ft == sem_wait)
+		ftname = "sem_wait";
+	else if (ft == sem_post)
+		ftname = "sem_post";
+	else if (ft == sem_close)
+		ftname = "sem_close";
+	printf("%s returned: %d\n", ftname, value);
 }

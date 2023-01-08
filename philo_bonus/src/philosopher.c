@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:03 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/07 18:59:45 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ static int	philo_evaluate(char **argv)
 	return (valid);
 }
 
-//	Unlink the existing semaphore with the same name
-//	and return sem_open() with given arguments
-sem_t	*ft_sem_renew(const char *name, int permission, int amount)
-{
-	sem_unlink(name);
-	return (sem_open(name, O_CREAT, permission, amount));
-}
-
 static t_table	world_end_table(char **argv)
 {
 	t_table	table;
@@ -73,48 +65,46 @@ static t_table	world_end_table(char **argv)
 	table.sleep_duration = ft_atoi(argv[4]);
 	if (argv[5] == NULL)
 	{
-		table.stat_end.status = 1;
+		table.meal_end = 1;
 		table.loop = loop_static;
 	}
 	else
 	{
-		table.stat_end.status = ft_atoi(argv[5]);
+		table.meal_end = ft_atoi(argv[5]);
 		table.loop = loop_increment;
 	}
 	gettimeofday(&table.time_start, NULL);
 	table.forks = ft_sem_renew(PHILO"forks", 0660, table.member);
 	table.sem_log = ft_sem_renew(PHILO"log", 0660, 1);
-	table.stat_end.sem = ft_sem_renew(PHILO"end", 0660, 1);
 	return (table);
 }
 
-static void	philo_end(pid_t *str_pid, t_table *table)
+static void	philo_cleanup(pid_t *str_pid, t_table *table)
 {
 	pid_t	*end;
 
 	end = str_pid + table->member;
 	while (str_pid != end)
 		waitpid(*str_pid++, NULL, 0);
-	sem_close(table->stat_end.sem);
 	sem_close(table->sem_log);
 	sem_close(table->forks);
 }
 
-static void	philo_begin(t_table *table)
+static void	philo_arrival(t_table table)
 {
 	t_philo	philo;
-	pid_t	str_pid[table->member];
-	t_philo	str_philo[table->member];
+	pid_t	str_pid[table.member];
+	t_philo	str_philo[table.member];
 
 	philo = (t_philo){(t_info){0, 0, 0}, table};
-	while (++philo.info.id <= table->member)
+	while (++philo.info.id <= table.member)
 	{
 		str_philo[philo.info.id - 1] = philo;
 		str_pid[philo.info.id - 1] = fork();
 		if (str_pid[philo.info.id - 1] == 0)
-			ft_simulation(&str_philo[philo.info.id - 1]);
+			philo_simulation(&str_philo[philo.info.id - 1]);
 	}
-	philo_end(str_pid, table);
+	philo_cleanup(str_pid, &table);
 }
 
 int	philosopher(char **argv)
@@ -124,10 +114,8 @@ int	philosopher(char **argv)
 	if (!philo_evaluate(argv + 1))
 		return (1);
 	table = world_end_table(argv);
-	if (table.forks == SEM_FAILED
-		|| table.sem_log == SEM_FAILED
-		|| table.stat_end.sem == SEM_FAILED)
+	if (table.forks == SEM_FAILED || table.sem_log == SEM_FAILED)
 		return (!!printf("Semaphore failed\n"));
-	philo_begin(&table);
+	philo_arrival(table);
 	return (0);
 }

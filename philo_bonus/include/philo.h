@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:17 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/07 18:59:45 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/08 18:51:54 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,13 @@ typedef struct s_info
 	long	last_meal;
 }			t_info;
 
-typedef struct s_stat
-{
-	sem_t	*sem;
-	int		status;
-}			t_stat;
-
 typedef struct s_table
 {
 	int				member;
 	int				countdown;
 	int				meal_duration;
 	int				sleep_duration;
-	t_stat			stat_end;
+	int				meal_end;
 	t_loop			loop;
 	sem_t			*forks;
 	sem_t			*sem_log;
@@ -57,7 +51,9 @@ typedef struct s_table
 typedef struct s_philo
 {
 	t_info	info;
-	t_table	*table;
+	t_table	table;
 }			t_philo;
 
+typedef int (*ft_sem)(sem_t *sem);
+void	semaphore_report(ft_sem ft, sem_t *sem);
 #endif
