@@ -6,11 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:58:22 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/09 13:58:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/09 22:08:12 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_simulation.h"
+#include "philo.h"
 
 int	default_mutex_init(pthread_mutex_t *mutex)
 {

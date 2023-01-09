@@ -6,15 +6,13 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:58:22 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/09 13:58:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/09 22:08:12 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_SIMULATION_H
 # define PHILO_SIMULATION_H
 
-// usleep
-# include <unistd.h>
 # include "philo.h"
 
 # define MS			1000
@@ -26,6 +24,7 @@
 # define DEATH		"died"
 # define DIED		-1
 
+int		philo_alive(t_philo *philo, long current);
 void	philo_do(t_philo *philo, int ms);
 void	philo_think(t_philo *philo);
 void	philo_log(t_philo *philo, const char *action);

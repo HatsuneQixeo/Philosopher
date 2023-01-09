@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:58:22 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/09 13:58:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/09 22:08:12 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	main(int argc, char **argv)
 		while (*++argv != NULL)
 			printf("Exessive arguments: %s\n", *argv);
 	}
-	else
-		return (philosopher(argv));
+	else if (philo_evaluate(argv))
+	{
+		philosopher(world_end_table(argv));
+		return (0);
+	}
 	return (1);
 }

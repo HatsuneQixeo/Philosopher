@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:58:22 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/09 13:58:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/01/09 22:08:12 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 static void	philo_getforks(t_philo *philo)
 {
-	philo_think(philo);
-	stat_set(philo->lfork, TAKEN);
-	stat_set(philo->rfork, TAKEN);
+	mutex_report(pthread_mutex_lock, philo->lfork);
 	philo_log(philo, GETFORK);
+	mutex_report(pthread_mutex_lock, philo->rfork);
 	philo_log(philo, GETFORK);
 }
 
 static void	philo_putforks(t_philo *philo)
 {
-	stat_set(philo->lfork, AVAILABLE);
-	stat_set(philo->rfork, AVAILABLE);
+	mutex_report(pthread_mutex_unlock, philo->lfork);
+	mutex_report(pthread_mutex_unlock, philo->rfork);
 }
 
 static void	philo_eat(t_philo *philo)
@@ -37,20 +36,18 @@ static void	philo_eat(t_philo *philo)
 	philo_putforks(philo);
 }
 
-void	*ft_simulation(void *ptr)
+void	*philo_simulation(void *ptr)
 {
 	t_philo	*philo;
 
 	philo = ptr;
 	philo->info.last_meal = philo_time(philo->table);
-	if (philo->info.id % 2)
-		philo_do(philo, 1);
 	while (philo->info.eaten < stat_get(&philo->table->stat_end))
 	{
 		philo_eat(philo);
+		philo_log(philo, SLEEP);
 		if (philo->info.eaten >= stat_get(&philo->table->stat_end))
 			break ;
-		philo_log(philo, SLEEP);
 		philo_do(philo, philo->table->sleep_duration);
 		philo_log(philo, THINK);
 	}
