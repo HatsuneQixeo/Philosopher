@@ -1,12 +1,12 @@
 NAME	:=	philo
+CC		:=	gcc
+CFLAGS	:=	-Wall -Wextra -Werror
 SRC_DIR	:=	src/
 SRCS	:=	${wildcard ${SRC_DIR}*.c}
 OBJ_DIR	:=	obj/
 OBJS	:=	${patsubst ${SRC_DIR}%.c, ${OBJ_DIR}%.o, ${SRCS}}
 INCLUDE	:=	include/
 HEADER	:=	${wildcard ${INCLUDE}*.h}
-CC		:=	gcc
-CFLAGS	:=	-Wall -Wextra -Werror
 RM		:=	rm -rf
 
 ${OBJ_DIR}%.o : ${SRC_DIR}%.c ${HEADER}

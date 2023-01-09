@@ -37,7 +37,7 @@ static void	philo_eat(t_philo *philo)
 	philo_putforks(philo);
 }
 
-void	*philo_monitor(void *ptr_philo)
+static void	*philo_monitor(void *ptr_philo)
 {
 	t_philo	*philo;
 
