@@ -39,16 +39,22 @@ int		philo_evaluate(char **argv);
 t_table	world_end_table(char **argv);
 
 // philo_for_ft
-void	init_fork(int i, t_table *table, void *ptr_forks, void *ptr_null);
-void	init_philo(int i, t_table *table, void *ptr_philo, void *ptr_forks);
-void	sim_end(int i, t_table *table, void *ptr_thread, void *ptr_null);
-void	destroy_forks(int i, t_table *table, void *ptr_forks, void *ptr_null);
+void	iter_init_fork(int i, t_table *table, void *ptr_forks, void *ptr_null);
+void	iter_init_philo(int i, t_table *table,
+			void *ptr_philo, void *ptr_forks);
+void	iter_jointhread(int i, t_table *table,
+			void *ptr_thread, void *ptr_null);
+void	iter_clean(int i, t_table *table, void *ptr_forks, void *ptr_null);
 // Arrival
-void	batch_odd(int i, t_table *table, void *ptr_thread, void *ptr_philo);
-void	batch_even(int i, t_table *table, void *ptr_thread, void *ptr_philo);
+void	iter_batch_odd(int i, t_table *table,
+			void *ptr_thread, void *ptr_philo);
+void	iter_batch_even(int i, t_table *table,
+			void *ptr_thread, void *ptr_philo);
 
 // Simulation
 void	*philo_simulation(void *ptr);
+// Kill 1
+void	philo_justdie(t_table *table);
 
 // Monitor
 void	philo_monitor_thread(t_philo *str_philo);

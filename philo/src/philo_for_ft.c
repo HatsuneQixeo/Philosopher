@@ -12,7 +12,7 @@
 
 #include "philo_init.h"
 
-void	init_fork(int i, t_table *table, void *ptr_forks, void *ptr_null)
+void	iter_init_fork(int i, t_table *table, void *ptr_forks, void *ptr_null)
 {
 	pthread_mutex_t	*fork;
 
@@ -22,7 +22,7 @@ void	init_fork(int i, t_table *table, void *ptr_forks, void *ptr_null)
 	(void)ptr_null;
 }
 
-void	init_philo(int i, t_table *table, void *ptr_philo, void *ptr_forks)
+void	iter_init_philo(int i, t_table *table, void *ptr_philo, void *ptr_forks)
 {
 	t_philo			*philo;
 	pthread_mutex_t	*fork;
@@ -33,7 +33,7 @@ void	init_philo(int i, t_table *table, void *ptr_philo, void *ptr_forks)
 		fork + i, fork + ((i + 1) % table->member)};
 }
 
-void	sim_end(int i, t_table *table, void *ptr_thread, void *ptr_null)
+void	iter_jointhread(int i, t_table *table, void *ptr_thread, void *ptr_null)
 {
 	pthread_t	*thread;
 
@@ -43,7 +43,7 @@ void	sim_end(int i, t_table *table, void *ptr_thread, void *ptr_null)
 	(void)ptr_null;
 }
 
-void	destroy_forks(int i, t_table *table, void *ptr_forks, void *ptr_null)
+void	iter_clean(int i, t_table *table, void *ptr_forks, void *ptr_null)
 {
 	pthread_mutex_t	*fork;
 

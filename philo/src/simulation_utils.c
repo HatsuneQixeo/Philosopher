@@ -33,7 +33,7 @@ void	philo_log(t_philo *philo, const char *action)
 	mutex_report(pthread_mutex_lock, &philo->table->mutex_log);
 	if (stat_get(&philo->table->stat_end) != DIED)
 		printf("%ld %d %s\n", philo_time(philo->table), philo->info.id, action);
-	else if (action == death)
+	if (action == death)
 		stat_set(&philo->table->stat_end, DIED);
 	mutex_report(pthread_mutex_unlock, &philo->table->mutex_log);
 }

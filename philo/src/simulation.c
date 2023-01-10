@@ -53,3 +53,16 @@ void	*philo_simulation(void *ptr)
 	}
 	return (NULL);
 }
+
+void	philo_justdie(t_table *table)
+{
+	t_philo	philo;
+
+	philo.info = (t_info){1, 0, 0};
+	philo.table = table;
+	philo_log(&philo, GETFORK);
+	philo_do(&philo, table->countdown + 1);
+	philo_log(&philo, DEATH);
+	mutex_report(pthread_mutex_destroy, &table->mutex_log);
+	mutex_report(pthread_mutex_destroy, &table->stat_end.mutex);
+}
