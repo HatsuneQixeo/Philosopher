@@ -29,7 +29,7 @@ void	philosopher(t_table table);
 int		ft_strisnumeric(const char *str);
 int		ft_atoi(const char *str);
 int		loop_static(int *nbr);
-int		loop_increment(int *nbr);
+int		loop_postincrement(int *nbr);
 
 // Mutex
 int		default_mutex_init(pthread_mutex_t *mutex);
@@ -44,7 +44,7 @@ void	iter_init_philo(int i, t_table *table,
 			void *ptr_philo, void *ptr_forks);
 void	iter_jointhread(int i, t_table *table,
 			void *ptr_thread, void *ptr_null);
-void	iter_clean(int i, t_table *table, void *ptr_forks, void *ptr_null);
+void	iter_clean(int i, t_table *table, void *ptr_philo, void *ptr_null);
 // Arrival
 void	iter_batch_odd(int i, t_table *table,
 			void *ptr_thread, void *ptr_philo);

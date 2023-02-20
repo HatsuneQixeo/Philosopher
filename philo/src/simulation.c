@@ -29,7 +29,7 @@ static void	philo_putforks(t_philo *philo)
 static void	philo_eat(t_philo *philo)
 {
 	philo_getforks(philo);
-	philo->info.last_meal = philo_time(philo->table);
+	stat_set(&philo->info.stat_meal, philo_time(philo->table));
 	philo_log(philo, EAT);
 	philo_do(philo, philo->table->meal_duration);
 	philo->table->loop(&philo->info.eaten);
@@ -41,7 +41,7 @@ void	*philo_simulation(void *ptr)
 	t_philo	*philo;
 
 	philo = ptr;
-	philo->info.last_meal = philo_time(philo->table);
+	stat_set(&philo->info.stat_meal, philo_time(philo->table));
 	while (philo->info.eaten < stat_get(&philo->table->stat_end))
 	{
 		philo_eat(philo);
@@ -58,11 +58,12 @@ void	philo_justdie(t_table *table)
 {
 	t_philo	philo;
 
-	philo.info = (t_info){1, 0, 0};
+	philo.info = default_info_init(1);
 	philo.table = table;
 	philo_log(&philo, GETFORK);
 	philo_do(&philo, table->countdown + 1);
 	philo_log(&philo, DEATH);
+	mutex_report(pthread_mutex_destroy, &philo.info.stat_meal.mutex);
 	mutex_report(pthread_mutex_destroy, &table->mutex_log);
 	mutex_report(pthread_mutex_destroy, &table->stat_end.mutex);
 }

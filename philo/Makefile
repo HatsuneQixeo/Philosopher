@@ -21,10 +21,10 @@ ${NAME} : ${OBJS}
 	${CC} ${CFLAGS} $^ -o $@
 
 san :
-	${CC} ${CFLAGS} -fsanitize=address -g3 ${SRCS} -o ${NAME}
+	${CC} ${CFLAGS} -fsanitize=address -g3 -I${INCLUDE} ${SRCS} -o ${NAME}
 
 sant :
-	${CC} ${CFLAGS} -fsanitize=thread -g3 ${SRCS} -o ${NAME}
+	${CC} ${CFLAGS} -fsanitize=thread -g3 -I${INCLUDE} ${SRCS} -o ${NAME}
 
 clean :
 	${RM} ${OBJ_DIR}

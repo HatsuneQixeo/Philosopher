@@ -12,6 +12,17 @@
 
 #include "philo_init.h"
 
+t_info	default_info_init(int id)
+{
+	t_info	info;
+
+	info.id = id;
+	info.eaten = 0;
+	mutex_report(default_mutex_init, &info.stat_meal.mutex);
+	info.stat_meal.status = 0;
+	return (info);
+}
+
 void	philo_for(t_iter ft_iter, t_table *table, void *arg1, void *arg2)
 {
 	int	i;
@@ -35,11 +46,11 @@ void	philosopher(t_table table)
 	philo_for(iter_init_fork, &table, str_fork, NULL);
 	philo_for(iter_init_philo, &table, str_philo, str_fork);
 	philo_for(iter_batch_odd, &table, str_thread, str_philo);
-	usleep(100);
+	usleep(831);
 	philo_for(iter_batch_even, &table, str_thread, str_philo);
 	philo_monitor_thread(str_philo);
 	philo_for(iter_jointhread, &table, str_thread, NULL);
-	philo_for(iter_clean, &table, str_fork, NULL);
+	philo_for(iter_clean, &table, str_philo, NULL);
 	free(str_thread);
 	free(str_fork);
 	free(str_philo);

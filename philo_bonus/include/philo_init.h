@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:17 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/01/09 13:58:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/13 17:10:44 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_INIT_H
 
 # include "philo.h"
+# include <signal.h>
 
 # define NOPHL	"number_of_philosophers"
 # define TDIE	"time_to_die"
@@ -27,10 +28,18 @@ int		philosopher(char **argv);
 int		ft_strisnumeric(const char *str);
 int		ft_atoi(const char *str);
 int		loop_static(int *nbr);
-int		loop_increment(int *nbr);
+int		loop_postincrement(int *nbr);
 
 sem_t	*ft_sem_renew(const char *name, int permission, int amount);
+t_info	default_info_init(int id);
 
+// Piter
+void	piter_init_philo(int i, t_table *table);
+void	piter_init_sim(int i, t_table *table);
+void	piter_clean_process(int i, t_table *table);
+void	piter_clean_philo(int i, t_table *table);
+
+// Philosopher
 int		philo_evaluate(char **argv);
 t_table	world_end_table(char **argv);
 // Simulation

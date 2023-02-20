@@ -38,9 +38,9 @@ void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex)
 	printf("%s returned: %d\n", ftname, value);
 }
 
-int	stat_get(t_stat *stat)
+long	stat_get(t_stat *stat)
 {
-	int	status;
+	long	status;
 
 	mutex_report(pthread_mutex_lock, &stat->mutex);
 	status = stat->status;
@@ -48,7 +48,7 @@ int	stat_get(t_stat *stat)
 	return (status);
 }
 
-void	stat_set(t_stat *stat, int set)
+void	stat_set(t_stat *stat, long set)
 {
 	mutex_report(pthread_mutex_lock, &stat->mutex);
 	stat->status = set;

@@ -1,4 +1,2 @@
 *.vscode
 *obj/
-*philo
-*philo_bonus

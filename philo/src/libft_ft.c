@@ -49,7 +49,7 @@ int	loop_static(int *i)
 	return (*i);
 }
 
-int	loop_increment(int *i)
+int	loop_postincrement(int *i)
 {
 	return ((*i)++);
 }

@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 20:56:49 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/13 17:10:44 by hqixeo           ###   ########.fr       */
+/*   Created: 2023/01/09 22:08:12 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/01/09 22:08:12 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_init.h"
-#define PHILO	"philo_"
 
 static int	philo_validarg(int i, const char *arg)
 {
@@ -32,13 +31,13 @@ static int	philo_validarg(int i, const char *arg)
 	return (0);
 }
 
-//	valid &= philo_validarg(i, argv[i]);
-// is the same as:
-//	if (!philo_validarg(i, argv[i]))
-//	valid = 0;
-// under this specific context
+//		valid &= philo_validarg(i, argv[i]);
+//	is the same as:
+//		if (!philo_validarg(i, argv[i]))
+//			valid = 0;
+//	under this specific context
 //		The purpose of this is to evaluate every arguments
-// 		and show every error with the given arguments before exitting
+//		and show every error with the given arguments before exitting
 //	A more readable approach would be:
 //	valid = min(valid, philo_validarg(i, argv[i]))
 //	, sucks that c doesn't have it built in
@@ -48,10 +47,10 @@ int	philo_evaluate(char **argv)
 	int	i;
 	int	valid;
 
-	i = -1;
+	i = 0;
 	valid = 1;
-	while (argv[++i] != NULL && i <= 4)
-		valid &= philo_validarg(i, argv[i]);
+	while (argv[++i] != NULL)
+		valid &= philo_validarg(i - 1, argv[i]);
 	return (valid);
 }
 
@@ -65,17 +64,16 @@ t_table	world_end_table(char **argv)
 	table.sleep_duration = ft_atoi(argv[4]);
 	if (argv[5] == NULL)
 	{
-		table.meal_end = 1;
+		table.stat_end.status = 1;
 		table.loop = loop_static;
 	}
 	else
 	{
-		table.meal_end = ft_atoi(argv[5]);
+		table.stat_end.status = ft_atoi(argv[5]);
 		table.loop = loop_postincrement;
 	}
 	gettimeofday(&table.time_start, NULL);
-	table.forks = ft_sem_renew(PHILO"forks", 0660, table.member);
-	table.sem_log = ft_sem_renew(PHILO"log", 0660, 01);
-	table.sem_end = ft_sem_renew(PHILO"end", 0660, 0);
+	mutex_report(default_mutex_init, &table.mutex_log);
+	mutex_report(default_mutex_init, &table.stat_end.mutex);
 	return (table);
 }

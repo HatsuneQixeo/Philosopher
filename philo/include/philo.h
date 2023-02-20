@@ -25,21 +25,25 @@
 # define TAKEN		0
 # define AVAILABLE	1
 
+# define DEFAULT	"\033[0m"
+# define CYAN		"\033[0;36m"
+# define RED		"\033[0;31m"
+
 typedef int		(*t_loop)(int *);
 typedef int		(*t_ftmutex)(pthread_mutex_t *);
+
+typedef struct s_stat
+{
+	pthread_mutex_t	mutex;
+	long			status;
+}			t_stat;
 
 typedef struct s_info
 {
 	int		id;
 	int		eaten;
-	long	last_meal;
+	t_stat	stat_meal;
 }			t_info;
-
-typedef struct s_stat
-{
-	pthread_mutex_t	mutex;
-	int				status;
-}			t_stat;
 
 typedef struct s_table
 {
@@ -66,4 +70,5 @@ void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex);
 typedef void	(*t_iter)(int i, t_table *table, void *arg1, void *arg2);
 void	philo_for(t_iter ft_iter, t_table *table, void *arg1, void *arg2);
 
+t_info	default_info_init(int id);
 #endif

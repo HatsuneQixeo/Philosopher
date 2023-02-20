@@ -21,7 +21,7 @@
 # define EAT		"is eating"
 # define SLEEP		"is sleeping"
 # define THINK		"is thinking"
-# define DEATH		"died"
+# define DEATH		"\033[0;31mdied\033[0m"
 # define DIED		-1
 
 int		philo_alive(t_philo *philo, long current);
@@ -31,7 +31,7 @@ void	philo_log(t_philo *philo, const char *action);
 
 // Utils
 long	philo_time(t_table *table);
-void	stat_set(t_stat *stat, int set);
-int		stat_get(t_stat *stat);
+void	stat_set(t_stat *stat, long set);
+long	stat_get(t_stat *stat);
 
 #endif

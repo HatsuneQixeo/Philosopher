@@ -29,7 +29,7 @@ void	iter_init_philo(int i, t_table *table, void *ptr_philo, void *ptr_forks)
 
 	philo = ptr_philo;
 	fork = ptr_forks;
-	philo[i] = (t_philo){(t_info){i + 1, 0, 0}, table,
+	philo[i] = (t_philo){default_info_init(i + 1), table,
 		fork + i, fork + ((i + 1) % table->member)};
 }
 
@@ -43,12 +43,13 @@ void	iter_jointhread(int i, t_table *table, void *ptr_thread, void *ptr_null)
 	(void)ptr_null;
 }
 
-void	iter_clean(int i, t_table *table, void *ptr_forks, void *ptr_null)
+void	iter_clean(int i, t_table *table, void *ptr_philo, void *ptr_null)
 {
-	pthread_mutex_t	*fork;
+	t_philo			*philo;
 
-	fork = ptr_forks;
-	mutex_report(pthread_mutex_destroy, fork + i);
+	philo = ptr_philo;
+	mutex_report(pthread_mutex_destroy, philo[i].lfork);
+	mutex_report(pthread_mutex_destroy, &philo[i].info.stat_meal.mutex);
 	(void)table;
 	(void)ptr_null;
 }

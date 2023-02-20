@@ -12,9 +12,20 @@
 
 #include "philo_simulation.h"
 
+static int	ft_strcmp(const char *str1, const char *str2)
+{
+	while (*str1 == *str2 && *str1 != '\0')
+	{
+		str1++;
+		str2++;
+	}
+	return ((unsigned char)*str1 - (unsigned char)*str2);
+}
+
 int	philo_alive(t_philo *philo, long current)
 {
-	return (current <= philo->info.last_meal + philo->table->countdown);
+	return (current
+		<= (stat_get(&philo->info.stat_meal) + philo->table->countdown));
 }
 
 long	philo_time(t_table *table)
@@ -33,7 +44,7 @@ void	philo_log(t_philo *philo, const char *action)
 	mutex_report(pthread_mutex_lock, &philo->table->mutex_log);
 	if (stat_get(&philo->table->stat_end) != DIED)
 		printf("%ld %d %s\n", philo_time(philo->table), philo->info.id, action);
-	if (action == death)
+	if (!ft_strcmp(action, death))
 		stat_set(&philo->table->stat_end, DIED);
 	mutex_report(pthread_mutex_unlock, &philo->table->mutex_log);
 }
@@ -43,6 +54,8 @@ void	philo_do(t_philo *philo, int time)
 	long	start;
 
 	start = philo_time(philo->table);
+	if (stat_get(&philo->table->stat_end) == DIED)
+		return ;
 	while (philo_time(philo->table) - start < time)
 		usleep(WAIT);
 }
