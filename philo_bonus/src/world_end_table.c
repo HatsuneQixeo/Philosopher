@@ -32,17 +32,6 @@ static int	philo_validarg(int i, const char *arg)
 	return (0);
 }
 
-//	valid &= philo_validarg(i, argv[i]);
-// is the same as:
-//	if (!philo_validarg(i, argv[i]))
-//	valid = 0;
-// under this specific context
-//		The purpose of this is to evaluate every arguments
-// 		and show every error with the given arguments before exitting
-//	A more readable approach would be:
-//	valid = min(valid, philo_validarg(i, argv[i]))
-//	, sucks that c doesn't have it built in
-//	, but bitwise is probably the fastest anyway
 int	philo_evaluate(char **argv)
 {
 	int	i;

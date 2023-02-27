@@ -52,4 +52,5 @@ oddtest : ${NAME}
 	ps
 
 dietest : ${NAME}
-	./$< 3 410 200 200 5 || ps
+	./$< 3 410 200 200 5
+	ps

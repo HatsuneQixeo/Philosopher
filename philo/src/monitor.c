@@ -12,15 +12,14 @@
 
 #include "philo_simulation.h"
 
-static void	iter_monitor(int i, t_table *table, void *ptr_philo, void *ptr_null)
+static void	iter_monitor(int i, t_table *table, void *ptr_philo, void *time)
 {
 	t_philo	*philo;
 
-	philo = ((t_philo *)ptr_philo) + i;
-	if (philo_alive(philo, *(long *)ptr_null))
+	philo = &((t_philo *)ptr_philo)[i];
+	if (philo_alive(philo, *(long *)time))
 		return ;
 	philo_log(philo, DEATH);
-	(void)ptr_null;
 	(void)table;
 }
 
