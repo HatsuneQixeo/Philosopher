@@ -30,17 +30,17 @@
 
 typedef int		(*t_loop)(int *i);
 
-typedef struct s_stat
+typedef struct s_time
 {
-	sem_t	*sem;
-	long	status;
-}			t_stat;
+	sem_t			*sem;
+	struct timeval	s_time;
+}			t_time;
 
 typedef struct s_info
 {
 	int		id;
 	int		eaten;
-	t_stat	stat_meal;
+	t_time	time_lastmeal;
 }			t_info;
 
 typedef struct s_table

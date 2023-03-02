@@ -57,8 +57,7 @@ t_info	default_info_init(int id)
 	info.id = id;
 	info.eaten = 0;
 	name = ft_semname(id);
-	info.stat_meal.sem = ft_sem_renew(name, 0660, 01);
+	info.time_lastmeal.sem = ft_sem_renew(name, 0660, 01);
 	free(name);
-	info.stat_meal.status = 0;
 	return (info);
 }

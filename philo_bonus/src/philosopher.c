@@ -51,20 +51,20 @@ void	philo_sim_status(t_table *table)
 		printf("Happy End\n");
 }
 
-static void	philo_arrival(t_table table)
+static void	philo_arrival(t_table *table)
 {
-	table.str_pid = malloc(sizeof(pid_t) * table.member);
-	table.str_philo = malloc(sizeof(t_philo) * table.member);
-	philo_iter(piter_init_philo, &table);
-	philo_iter(piter_init_sim, &table);
-	philo_sim_status(&table);
-	philo_iter(piter_clean_process, &table);
-	philo_iter(piter_clean_philo, &table);
-	semaphore_report(sem_close, table.forks);
-	semaphore_report(sem_close, table.sem_log);
-	semaphore_report(sem_close, table.sem_end);
-	free(table.str_pid);
-	free(table.str_philo);
+	table->str_pid = malloc(sizeof(pid_t) * table->member);
+	table->str_philo = malloc(sizeof(t_philo) * table->member);
+	philo_iter(piter_init_philo, table);
+	philo_iter(piter_init_sim, table);
+	philo_sim_status(table);
+	philo_iter(piter_clean_process, table);
+	philo_iter(piter_clean_philo, table);
+	semaphore_report(sem_close, table->forks);
+	semaphore_report(sem_close, table->sem_log);
+	semaphore_report(sem_close, table->sem_end);
+	free(table->str_pid);
+	free(table->str_philo);
 }
 
 int	philosopher(char **argv)
@@ -74,7 +74,7 @@ int	philosopher(char **argv)
 	if (!philo_evaluate(argv + 1))
 		return (1);
 	table = world_end_table(argv);
-	philo_arrival(table);
+	philo_arrival(&table);
 	// Forbidden
 	system("leaks -q philo_bonus");
 	return (0);

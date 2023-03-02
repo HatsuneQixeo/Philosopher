@@ -18,14 +18,17 @@ sem_t	*ft_sem_renew(const char *name, int permission, int amount)
 {
 	sem_t	*sem;
 
+	sem_unlink(name);
 	sem = sem_open(name, O_CREAT | O_EXCL, permission, amount);
 	if (sem == SEM_FAILED)
 		printf("Failed to open: %s\n", name);
 	else
+	{
 		printf("Newsem(%s): %p\n", name, sem);
-	//Forbidden
-	if (sem_unlink(name) == -1)
-		perror(name);
+		//Forbidden
+		if (sem_unlink(name) == -1)
+			perror(name);
+	}
 	return (sem);
 }
 
@@ -48,19 +51,20 @@ void	semaphore_report(t_ftsem ft, sem_t *sem)
 	printf("semaphore_report: %s(%p) returned: %d\n", ftname, sem, value);
 }
 
-void	stat_set(t_stat *stat, long set)
+void	time_set(t_time *time)
 {
-	semaphore_report(sem_wait, stat->sem);
-	stat->status = set;
-	semaphore_report(sem_post, stat->sem);
+	semaphore_report(sem_wait, time->sem);
+	gettimeofday(&time->s_time, NULL);
+	semaphore_report(sem_post, time->sem);
 }
 
-long	stat_get(t_stat *stat)
+time_t	time_get(t_time *time, struct timeval start)
 {
-	long	status;
+	time_t	status;
 
-	semaphore_report(sem_wait, stat->sem);
-	status = stat->status;
-	semaphore_report(sem_post, stat->sem);
+	semaphore_report(sem_wait, time->sem);
+	status = (time->s_time.tv_sec - start.tv_sec) * 1000
+		+ (time->s_time.tv_usec - start.tv_usec) / 1000;
+	semaphore_report(sem_post, time->sem);
 	return (status);
 }

@@ -39,12 +39,10 @@ long	philo_time(t_table *table)
 
 void	philo_log(t_philo *philo, const char *action)
 {
-	static const char	*death = DEATH;
-
 	mutex_report(pthread_mutex_lock, &philo->table->mutex_log);
 	if (stat_get(&philo->table->stat_end) != DIED)
 		printf("%ld %d %s\n", philo_time(philo->table), philo->info.id, action);
-	if (!ft_strcmp(action, death))
+	if (!ft_strcmp(action, DEATH))
 		stat_set(&philo->table->stat_end, DIED);
 	mutex_report(pthread_mutex_unlock, &philo->table->mutex_log);
 }
@@ -53,9 +51,9 @@ void	philo_do(t_philo *philo, int time)
 {
 	long	start;
 
-	start = philo_time(philo->table);
 	if (stat_get(&philo->table->stat_end) == DIED)
 		return ;
+	start = philo_time(philo->table);
 	while (philo_time(philo->table) - start < time)
 		usleep(WAIT);
 }

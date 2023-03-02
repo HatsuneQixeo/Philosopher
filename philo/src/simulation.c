@@ -42,7 +42,7 @@ void	*philo_simulation(void *ptr)
 
 	philo = ptr;
 	stat_set(&philo->info.stat_meal, philo_time(philo->table));
-	while (stat_get(&philo->table->stat_end) != DIED)
+	while (philo->info.eaten < stat_get(&philo->table->stat_end))
 	{
 		philo_eat(philo);
 		philo_log(philo, SLEEP);

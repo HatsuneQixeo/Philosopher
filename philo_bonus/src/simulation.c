@@ -29,7 +29,7 @@ static void	philo_putforks(t_philo *philo)
 static void	philo_eat(t_philo *philo)
 {
 	philo_getforks(philo);
-	stat_set(&philo->info.stat_meal, philo_time(philo->table));
+	time_set(&philo->info.time_lastmeal);
 	philo_log(philo, EAT);
 	philo_do(philo, philo->table->meal_duration);
 	philo->table->loop(&philo->info.eaten);
@@ -52,7 +52,7 @@ void	philo_simulation(t_philo *philo)
 {
 	pthread_t	monitor;
 
-	philo->info.stat_meal.status = philo_time(philo->table);
+	time_set(&philo->info.time_lastmeal);
 	pthread_create(&monitor, NULL, philo_monitor, philo);
 	pthread_detach(monitor);
 	while (1)
@@ -68,7 +68,7 @@ void	philo_simulation(t_philo *philo)
 	while (1)
 	{
 		usleep(philo->table->sleep_duration * MS);
-		stat_set(&philo->info.stat_meal, philo_time(philo->table));
+		time_set(&philo->info.time_lastmeal);
 	}
 	// exit(0);
 }

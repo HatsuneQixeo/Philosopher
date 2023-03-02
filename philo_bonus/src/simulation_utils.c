@@ -12,13 +12,25 @@
 
 #include "philo_simulation.h"
 
-int	philo_isalive(t_philo *philo, long current)
+static int	ft_strcmp(const char *str1, const char *str2)
 {
-	return (current - stat_get(&philo->info.stat_meal)
-		<= philo->table->countdown);
+	size_t	i;
+
+	i = 0;
+	while (str1[i] == str2[i] && str1[i] != '\0')
+		i++;
+	return (str1[i] - str2[i]);
 }
 
-long	philo_time(t_table *table)
+int	philo_isalive(t_philo *philo, time_t current)
+{
+	const t_table	*table = philo->table;
+
+	return (current - time_get(&philo->info.time_lastmeal, table->time_start)
+		<= table->countdown);
+}
+
+time_t	philo_time(t_table *table)
 {
 	struct timeval	time;
 
@@ -29,17 +41,15 @@ long	philo_time(t_table *table)
 
 void	philo_log(t_philo *philo, const char *action)
 {
-	static const char	*death = DEATH;
-
 	semaphore_report(sem_wait, philo->table->sem_log);
 	printf("%ld %d %s\n", philo_time(philo->table), philo->info.id, action);
-	if (action != death)
+	if (ft_strcmp(action, DEATH))
 		semaphore_report(sem_post, philo->table->sem_log);
 }
 
 void	philo_do(t_philo *philo, int time)
 {
-	long	start;
+	time_t	start;
 
 	start = philo_time(philo->table);
 	while (philo_time(philo->table) - start < time)

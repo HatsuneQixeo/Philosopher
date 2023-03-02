@@ -38,5 +38,5 @@ void	piter_clean_process(int i, t_table *table)
 
 void	piter_clean_philo(int i, t_table *table)
 {
-	semaphore_report(sem_close, table->str_philo[i].info.stat_meal.sem);
+	semaphore_report(sem_close, table->str_philo[i].info.time_lastmeal.sem);
 }

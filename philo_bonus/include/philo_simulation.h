@@ -23,13 +23,13 @@
 # define THINK		"is thinking"
 # define DEATH		"died"
 
-int		philo_isalive(t_philo *philo, long current);
+int		philo_isalive(t_philo *philo, time_t current);
 void	philo_do(t_philo *philo, int ms);
 void	philo_log(t_philo *philo, const char *action);
 
 // Utils
-long	philo_time(t_table *table);
+time_t	philo_time(t_table *table);
 
-void	stat_set(t_stat *stat, long set);
-long	stat_get(t_stat *stat);
+void	time_set(t_time *time);
+time_t	time_get(t_time *time, struct timeval start);
 #endif
