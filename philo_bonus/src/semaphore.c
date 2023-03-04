@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:49:00 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/13 17:10:43 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/04 10:52:42 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ sem_t	*ft_sem_renew(const char *name, int permission, int amount)
 	if (sem == SEM_FAILED)
 		printf("Failed to open: %s\n", name);
 	else
-	{
-		printf("Newsem(%s): %p\n", name, sem);
-		//Forbidden
-		if (sem_unlink(name) == -1)
-			perror(name);
-	}
+		sem_unlink(name);
 	return (sem);
 }
 

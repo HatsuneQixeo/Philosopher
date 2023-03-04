@@ -28,8 +28,6 @@ void	philosopher(t_table table);
 // libft_ft
 int		ft_strisnumeric(const char *str);
 int		ft_atoi(const char *str);
-int		loop_static(int *nbr);
-int		loop_postincrement(int *nbr);
 
 // Mutex
 int		default_mutex_init(pthread_mutex_t *mutex);
@@ -39,16 +37,18 @@ int		philo_evaluate(char **argv);
 t_table	world_end_table(char **argv);
 
 // philo_for_ft
-void	iter_init_fork(int i, t_table *table, void *ptr_forks, void *ptr_null);
-void	iter_init_philo(int i, t_table *table,
+void	iter_init_fork(unsigned int i, t_table *table,
+			void *ptr_forks, void *ptr_null);
+void	iter_init_philo(unsigned int i, t_table *table,
 			void *ptr_philo, void *ptr_forks);
-void	iter_jointhread(int i, t_table *table,
+void	iter_jointhread(unsigned int i, t_table *table,
 			void *ptr_thread, void *ptr_null);
-void	iter_clean(int i, t_table *table, void *ptr_philo, void *ptr_null);
+void	iter_clean(unsigned int i, t_table *table,
+			void *ptr_philo, void *ptr_null);
 // Arrival
-void	iter_batch_odd(int i, t_table *table,
+void	iter_batch_odd(unsigned int i, t_table *table,
 			void *ptr_thread, void *ptr_philo);
-void	iter_batch_even(int i, t_table *table,
+void	iter_batch_even(unsigned int i, t_table *table,
 			void *ptr_thread, void *ptr_philo);
 
 // Simulation

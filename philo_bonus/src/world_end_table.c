@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 20:56:49 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/13 17:10:44 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/04 10:52:42 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ t_table	world_end_table(char **argv)
 	if (argv[5] == NULL)
 	{
 		table.meal_end = 1;
-		table.loop = loop_static;
+		table.loop_end = 0;
 	}
 	else
 	{
 		table.meal_end = ft_atoi(argv[5]);
-		table.loop = loop_postincrement;
+		table.loop_end = 1;
 	}
 	gettimeofday(&table.time_start, NULL);
 	table.forks = ft_sem_renew(PHILO"forks", 0660, table.member);

@@ -43,13 +43,3 @@ int	ft_atoi(const char *str)
 		nbr = (nbr * 10) + (*str++ - '0');
 	return (nbr * sign);
 }
-
-int	loop_static(int *i)
-{
-	return (*i);
-}
-
-int	loop_postincrement(int *i)
-{
-	return ((*i)++);
-}

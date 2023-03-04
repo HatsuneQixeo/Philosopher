@@ -12,7 +12,7 @@
 
 #include "philo_init.h"
 
-static void	philo_arrival(int i, t_table *table,
+static void	philo_arrival(unsigned int i, t_table *table,
 			void *ptr_thread, void *ptr_philo)
 {
 	pthread_t	*thread;
@@ -24,14 +24,14 @@ static void	philo_arrival(int i, t_table *table,
 	(void)table;
 }
 
-void	iter_batch_odd(int i, t_table *table,
+void	iter_batch_odd(unsigned int i, t_table *table,
 			void *ptr_thread, void *ptr_philo)
 {
 	if ((i + 1) % 2 == 1)
 		philo_arrival(i, table, ptr_thread, ptr_philo);
 }
 
-void	iter_batch_even(int i, t_table *table,
+void	iter_batch_even(unsigned int i, t_table *table,
 			void *ptr_thread, void *ptr_philo)
 {
 	if ((i + 1) % 2 == 0)

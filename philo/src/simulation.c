@@ -32,7 +32,7 @@ static void	philo_eat(t_philo *philo)
 	stat_set(&philo->info.stat_meal, philo_time(philo->table));
 	philo_log(philo, EAT);
 	philo_do(philo, philo->table->meal_duration);
-	philo->table->loop(&philo->info.eaten);
+	philo->info.eaten += philo->table->loop_end;
 	philo_putforks(philo);
 }
 

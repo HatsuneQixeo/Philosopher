@@ -6,50 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:03 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/13 17:10:43 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/04 10:52:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_init.h"
-
-void	piter_happyend(int i, t_table *table)
-{
-	semaphore_report(sem_wait, table->sem_end);
-	(void)i;
-}
-
-void	philo_iter(t_piter ft_iter, t_table *table)
-{
-	int	i;
-
-	i = -1;
-	while (++i < table->member)
-		ft_iter(i, table);
-}
-
-void	philo_sim_status(t_table *table)
-{
-	pid_t	happyend;
-	pid_t	first_exit;
-
-	happyend = fork();
-	if (happyend == -1)
-		return ((void)printf("Fork error\n"));
-	else if (happyend == CHILD)
-	{
-		philo_iter(piter_happyend, table);
-		exit(0);
-	}
-	else
-		first_exit = waitpid(-1, NULL, 0);
-	if (first_exit != happyend)
-	{
-		printf("Someone died\n");
-		kill(happyend, SIGINT);
-	}
-	else
-		printf("Happy End\n");
-}
 
 static void	philo_arrival(t_table *table)
 {
@@ -58,7 +19,6 @@ static void	philo_arrival(t_table *table)
 	philo_iter(piter_init_philo, table);
 	philo_iter(piter_init_sim, table);
 	philo_sim_status(table);
-	philo_iter(piter_clean_process, table);
 	philo_iter(piter_clean_philo, table);
 	semaphore_report(sem_close, table->forks);
 	semaphore_report(sem_close, table->sem_log);
@@ -74,8 +34,10 @@ int	philosopher(char **argv)
 	if (!philo_evaluate(argv + 1))
 		return (1);
 	table = world_end_table(argv);
+	if (table.sem_end == SEM_FAILED
+		|| table.sem_log == SEM_FAILED
+		|| table.forks == SEM_FAILED)
+		return (1);
 	philo_arrival(&table);
-	// Forbidden
-	system("leaks -q philo_bonus");
 	return (0);
 }

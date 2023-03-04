@@ -12,7 +12,8 @@
 
 #include "philo_simulation.h"
 
-static void	iter_monitor(int i, t_table *table, void *ptr_philo, void *time)
+static void	iter_monitor(unsigned int i, t_table *table,
+			void *ptr_philo, void *time)
 {
 	t_philo	*philo;
 

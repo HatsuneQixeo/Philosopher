@@ -51,7 +51,7 @@ typedef struct s_table
 	int				countdown;
 	int				meal_duration;
 	int				sleep_duration;
-	t_loop			loop;
+	int				loop_end;
 	t_stat			stat_end;
 	pthread_mutex_t	mutex_log;
 	struct timeval	time_start;
@@ -67,7 +67,8 @@ typedef struct s_philo
 
 void	mutex_report(t_ftmutex ft_mutex, pthread_mutex_t *mutex);
 
-typedef void	(*t_iter)(int i, t_table *table, void *arg1, void *arg2);
+typedef void	(*t_iter)(unsigned int i, t_table *table,
+			void *arg1, void *arg2);
 void	philo_for(t_iter ft_iter, t_table *table, void *arg1, void *arg2);
 
 t_info	default_info_init(int id);

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 16:50:03 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/13 17:10:44 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/04 10:52:42 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	philo_eat(t_philo *philo)
 	time_set(&philo->info.time_lastmeal);
 	philo_log(philo, EAT);
 	philo_do(philo, philo->table->meal_duration);
-	philo->table->loop(&philo->info.eaten);
+	philo->info.eaten += philo->table->loop_end;
 	philo_putforks(philo);
 }
 
@@ -65,10 +65,5 @@ void	philo_simulation(t_philo *philo)
 		philo_log(philo, THINK);
 	}
 	semaphore_report(sem_post, philo->table->sem_end);
-	while (1)
-	{
-		usleep(philo->table->sleep_duration * MS);
-		time_set(&philo->info.time_lastmeal);
-	}
-	// exit(0);
+	exit(0);
 }

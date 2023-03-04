@@ -54,12 +54,12 @@ t_table	world_end_table(char **argv)
 	if (argv[5] == NULL)
 	{
 		table.stat_end.status = 1;
-		table.loop = loop_static;
+		table.loop_end = 0;
 	}
 	else
 	{
 		table.stat_end.status = ft_atoi(argv[5]);
-		table.loop = loop_postincrement;
+		table.loop_end = 1;
 	}
 	gettimeofday(&table.time_start, NULL);
 	mutex_report(default_mutex_init, &table.mutex_log);
