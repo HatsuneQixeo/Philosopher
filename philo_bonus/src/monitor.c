@@ -12,53 +12,21 @@
 
 #include "philo_init.h"
 
-static void	piter_happyend(unsigned int i, t_table *table)
-{
-	semaphore_report(sem_wait, table->sem_end);
-	(void)i;
-}
-
 static void	piter_badend(unsigned int i, t_table *table)
 {
 	if (kill(table->str_pid[i], SIGINT) != -1)
 		waitpid(table->str_pid[i], NULL, 0);
 }
 
-static int	philo_simend(pid_t happyend)
-{
-	pid_t	first_exit;
-	int		status;
-
-	while (1)
-	{
-		first_exit = waitpid(-1, &status, 0);
-		if (first_exit == happyend)
-			return (0);
-		else if (first_exit == -1)
-			break ;
-		else if (status == 0)
-			continue ;
-		else if (first_exit != happyend)
-			return (1);
-	}
-	return (-1);
-}
-
 void	philo_sim_status(t_table *table)
 {
-	pid_t	happyend;
+	int	status;
 
-	happyend = fork();
-	if (happyend == -1)
-		printf("Fork error\n");
-	else if (happyend == 0)
+	status = 0;
+	while (status != -1)
 	{
-		philo_iter(piter_happyend, table);
-		exit(0);
+		if (waitpid(-1, &status, 0) == -1)
+			return ;
 	}
-	else if (philo_simend(happyend) == 1)
-	{
-		kill(happyend, SIGINT);
-		philo_iter(piter_badend, table);
-	}
+	philo_iter(piter_badend, table);
 }
